@@ -33,7 +33,7 @@ class SessionView(ft.Column):
                 alignment="spaceBetween"
             ),
             bgcolor="white",
-            padding=ft.padding.only(left=8, right=8, top=4, bottom=4)
+            padding=ft.Padding.only(left=8, right=8, top=4, bottom=4)
         )
 
         # Participants row

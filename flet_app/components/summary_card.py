@@ -46,7 +46,7 @@ class SummaryCard(ft.Container):
             content=ft.Text(status_texts.get(status, status), size=12, color="white", weight="bold"),
             bgcolor=status_colors.get(status, 'grey'),
             border_radius=12,
-            padding=ft.padding.only(left=12, right=12, top=4, bottom=4),
+            padding=ft.Padding.only(left=12, right=12, top=4, bottom=4),
         )
 
         # Header
