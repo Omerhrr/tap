@@ -95,7 +95,7 @@ class SummaryCard(ft.Container):
         # Action button
         action_btn = None
         if status == 'active':
-            action_btn = ft.ElevatedButton(
+            action_btn = ft.Button(
                 "Lock Session",
                 icon="lock",
                 bgcolor="indigo",
@@ -104,7 +104,7 @@ class SummaryCard(ft.Container):
                 expand=True,
             )
         elif status == 'locked':
-            action_btn = ft.ElevatedButton(
+            action_btn = ft.Button(
                 "Mark Settled",
                 icon="check_circle",
                 bgcolor="green",

@@ -71,7 +71,7 @@ class SessionView(ft.Column):
         # Action buttons
         action_buttons = ft.Row(
             controls=[
-                ft.ElevatedButton(
+                ft.Button(
                     "Scan Receipt",
                     icon="camera_alt",
                     bgcolor="blue",
@@ -79,7 +79,7 @@ class SessionView(ft.Column):
                     on_click=self._on_scan_click,
                     expand=True
                 ),
-                ft.ElevatedButton(
+                ft.Button(
                     "Add Item",
                     icon="add",
                     bgcolor="green",
@@ -95,7 +95,7 @@ class SessionView(ft.Column):
         items_header = ft.Row(
             controls=[
                 ft.Text("Bill Items", size=16, weight="bold"),
-                ft.ElevatedButton(
+                ft.Button(
                     "Auto Split",
                     icon="call_split",
                     on_click=self._on_auto_split_click,
@@ -224,35 +224,18 @@ class SessionView(ft.Column):
         self._page.update()
 
     def _show_scan_dialog(self):
-        file_picker = ft.FilePicker(on_result=self._on_file_picked)
+        # Simplified scan dialog - just show a message
         scan_dialog = ft.AlertDialog(
             title=ft.Text("Scan Receipt"),
-            content=ft.Column(
-                controls=[
-                    ft.Text("Upload a photo of your receipt"),
-                    ft.ElevatedButton(
-                        "Choose Image",
-                        icon="upload_file",
-                        on_click=lambda _: file_picker.pick_files(
-                            allowed_extensions=["jpg", "jpeg", "png", "heic"]
-                        )
-                    )
-                ],
-                tight=True
-            ),
-            actions=[ft.TextButton("Cancel", on_click=lambda e: self._close_dialog())]
+            content=ft.Text("Receipt scanning requires backend OCR setup.\nUse 'Add Item' to manually add items."),
+            actions=[ft.TextButton("Close", on_click=lambda e: self._close_dialog())]
         )
-        self._page.overlay.append(file_picker)
         self._page.dialog = scan_dialog
         scan_dialog.open = True
         self._page.update()
 
-    async def _on_file_picked(self, e):
-        if e.files:
-            self._close_dialog()
-            self._page.snack_bar = ft.SnackBar(content=ft.Text("Processing receipt..."), bgcolor="blue")
-            self._page.snack_bar.open = True
-            self._page.update()
+    def _on_file_picked(self, e):
+        pass
 
     def _show_add_item_dialog(self):
         description_field = ft.TextField(label="Description", autofocus=True)
@@ -267,7 +250,7 @@ class SessionView(ft.Column):
             ),
             actions=[
                 ft.TextButton("Cancel", on_click=lambda e: self._close_dialog()),
-                ft.ElevatedButton(
+                ft.Button(
                     "Add",
                     on_click=lambda e: asyncio.create_task(
                         self._add_item(
@@ -304,7 +287,7 @@ class SessionView(ft.Column):
             content=ft.Column(controls=[description_field, amount_field], tight=True),
             actions=[
                 ft.TextButton("Cancel", on_click=lambda e: self._close_dialog()),
-                ft.ElevatedButton(
+                ft.Button(
                     "Save",
                     on_click=lambda e: asyncio.create_task(
                         self._update_item(item['id'], description_field.value, float(amount_field.value or 0))

@@ -41,7 +41,7 @@ class HomeView(ft.Column):
         )
 
         # Create session button
-        create_btn = ft.ElevatedButton(
+        create_btn = ft.Button(
             "Create New Session",
             icon="add_circle",
             bgcolor="#3F51B5",
@@ -67,7 +67,7 @@ class HomeView(ft.Column):
             max_length=6,
         )
 
-        join_btn = ft.ElevatedButton(
+        join_btn = ft.Button(
             "Join Session",
             icon="login",
             bgcolor="#4CAF50",
