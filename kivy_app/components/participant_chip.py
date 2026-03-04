@@ -1,10 +1,9 @@
 # components/participant_chip.py - Participant avatar/chip component
-from kivy.properties import StringProperty, NumericProperty, DictProperty, BooleanProperty
-from kivy.uix.behaviors import ButtonBehavior
+# Compatible with KivyMD 1.2.0
+from kivy.properties import StringProperty, NumericProperty, BooleanProperty
 from kivymd.uix.card import MDCard
 from kivymd.uix.boxlayout import MDBoxLayout
 from kivymd.uix.label import MDLabel
-from kivymd.uix.circularlayout import MDCircularLayout
 from kivymd.uix.widget import MDWidget
 
 
@@ -23,7 +22,6 @@ class ParticipantAvatar(MDCard):
         self.size = ('60dp', '60dp')
         self.radius = [30]
         self.elevation = 2
-        self.ripple_behavior = True
         self.md_bg_color = self._hex_to_rgba(self.color)
 
         # Build UI
@@ -48,8 +46,7 @@ class ParticipantAvatar(MDCard):
             text=initial,
             halign='center',
             valign='center',
-            theme_font_size="Title",
-            font_style="Medium",
+            font_style='H5',
             theme_text_color="Custom",
             text_color=(1, 1, 1, 1),
         )
@@ -93,7 +90,6 @@ class ParticipantChip(MDCard):
         self.height = '40dp'
         self.radius = [20]
         self.elevation = 1
-        self.ripple_behavior = True
         self.padding = ('8dp', '4dp', '8dp', '4dp')
 
         self._build_ui()
@@ -120,8 +116,7 @@ class ParticipantChip(MDCard):
         # Name
         name_label = MDLabel(
             text=self.name,
-            theme_font_size="Body",
-            font_style="Medium",
+            font_style='Body1',
             halign='left',
             valign='center',
             size_hint_x=0.6,
@@ -132,8 +127,7 @@ class ParticipantChip(MDCard):
         if self.show_share and self.share > 0:
             share_label = MDLabel(
                 text=f"₦{self.share:,.0f}",
-                theme_font_size="Body",
-                font_style="Medium",
+                font_style='Body1',
                 theme_text_color="Secondary",
                 halign='right',
                 valign='center',

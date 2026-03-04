@@ -1,21 +1,20 @@
 # screens/home_screen.py - Home screen
-from kivy.uix.screenmanager import Screen
+# Compatible with KivyMD 1.2.0
 from kivymd.uix.screen import MDScreen
 from kivymd.uix.boxlayout import MDBoxLayout
-from kivymd.uix.floatlayout import MDFloatLayout
 from kivymd.uix.label import MDLabel
-from kivymd.uix.button import MDButton, MDButtonText, MDButtonIcon
 from kivymd.uix.textfield import MDTextField
 from kivymd.uix.card import MDCard
 from kivymd.uix.dialog import MDDialog
-from kivymd.uix.divider import MDDivider
+from kivymd.uix.button import MDRaisedButton, MDFlatButton, MDIconButton
+from kivymd.uix.snackbar import Snackbar
 from kivy.properties import ObjectProperty, StringProperty
 from kivy.clock import Clock
 import threading
 
 from state import app_state
 from api_client import api_client
-from components.dialogs import NameInputDialog, SessionCodeDialog
+from components.dialogs import SessionCodeDialog
 
 
 class HomeScreen(MDScreen):
@@ -48,17 +47,16 @@ class HomeScreen(MDScreen):
 
         title = MDLabel(
             text="Tap & Split",
-            theme_font_size="Headline",
-            font_style="Bold",
             halign='center',
+            font_style='H4',
             theme_text_color="Primary",
         )
         header.add_widget(title)
 
         subtitle = MDLabel(
             text="Split bills with friends instantly",
-            theme_font_size="Body",
             halign='center',
+            font_style='Body1',
             theme_text_color="Secondary",
         )
         header.add_widget(subtitle)
@@ -78,8 +76,7 @@ class HomeScreen(MDScreen):
 
         name_label = MDLabel(
             text="Your Name",
-            theme_font_size="Title",
-            font_style="Medium",
+            font_style='H6',
         )
         name_card.add_widget(name_label)
 
@@ -105,26 +102,21 @@ class HomeScreen(MDScreen):
 
         actions_label = MDLabel(
             text="Start or Join a Session",
-            theme_font_size="Title",
-            font_style="Medium",
+            font_style='H6',
         )
         actions_card.add_widget(actions_label)
 
         # Create session button
-        create_btn = MDButton(
-            MDButtonIcon(icon="plus"),
-            MDButtonText(text="Create New Session"),
-            style="filled",
+        create_btn = MDRaisedButton(
+            text="Create New Session",
             size_hint_x=1,
             on_release=self._on_create_session,
         )
         actions_card.add_widget(create_btn)
 
         # Join session button
-        join_btn = MDButton(
-            MDButtonIcon(icon="account-arrow-right"),
-            MDButtonText(text="Join Existing Session"),
-            style="outlined",
+        join_btn = MDFlatButton(
+            text="Join Existing Session",
             size_hint_x=1,
             on_release=self._on_join_session,
         )
@@ -135,7 +127,7 @@ class HomeScreen(MDScreen):
         # Device ID info
         info_label = MDLabel(
             text=f"Device ID: {app_state.device_id}",
-            theme_font_size="Caption",
+            font_style='Caption',
             theme_text_color="Secondary",
             halign='center',
             size_hint_y=None,
@@ -196,15 +188,13 @@ class HomeScreen(MDScreen):
             title="Join Session",
             content_cls=content,
             buttons=[
-                MDButton(
-                    MDButtonText(text="Cancel"),
-                    style="text",
+                MDFlatButton(
+                    text="Cancel",
                     on_release=lambda x: self.dialog.dismiss(),
                 ),
-                MDButton(
-                    MDButtonText(text="Join"),
-                    style="text",
-                    on_release=lambda x: self._join_with_code(content.code, name),
+                MDFlatButton(
+                    text="Join",
+                    on_release=lambda x: self._join_with_code(content.text_field.text, name),
                 ),
             ],
         )
@@ -253,14 +243,7 @@ class HomeScreen(MDScreen):
     def _show_error(self, message: str):
         """Show error message."""
         app_state.set_error(message)
-        # Show snackbar
-        from kivymd.uix.snackbar import MDSnackbar, MDSnackbarText
-        MDSnackbar(
-            MDSnackbarText(text=message),
-            y='24dp',
-            pos_hint={'center_x': 0.5},
-            theme_bg_color="Error",
-        ).open()
+        Snackbar(text=message, bg_color=(1, 0.3, 0.3, 1)).open()
 
     def on_enter(self):
         """Called when screen is entered."""

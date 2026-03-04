@@ -1,33 +1,35 @@
 # screens/session_screen.py - Session screen
-from kivy.uix.screenmanager import Screen
+# Compatible with KivyMD 1.2.0
 from kivymd.uix.screen import MDScreen
 from kivymd.uix.boxlayout import MDBoxLayout
-from kivymd.uix.scrolllayout import MDScrollLayout
-from kivymd.uix.floatlayout import MDFloatLayout
+from kivymd.uix.scrollview import MDScrollView
 from kivymd.uix.label import MDLabel
-from kivymd.uix.button import MDButton, MDButtonText, MDButtonIcon
 from kivymd.uix.textfield import MDTextField
 from kivymd.uix.card import MDCard
 from kivymd.uix.dialog import MDDialog
-from kivymd.uix.snackbar import MDSnackbar, MDSnackbarText
-from kivymd.uix.divider import MDDivider
-from kivymd.uix.tab import MDTabs, MDTabsItem, MDTabsItemText
+from kivymd.uix.snackbar import Snackbar
+from kivymd.uix.button import MDRaisedButton, MDFlatButton, MDIconButton
+from kivymd.uix.tab import MDTabsBase
+from kivymd.uix.floatlayout import MDFloatLayout
 from kivy.properties import ObjectProperty, StringProperty, ListProperty, NumericProperty
 from kivy.clock import Clock
 import threading
 
 from state import app_state
 from api_client import api_client
-from components.dialogs import AddItemDialog, NameInputDialog
-from components.participant_chip import ParticipantAvatar, ParticipantChip
+from components.dialogs import AddItemDialog
 from components.item_card import ItemCard
+
+
+class Tab(MDFloatLayout, MDTabsBase):
+    """Tab class for session tabs."""
+    pass
 
 
 class SessionScreen(MDScreen):
     """Main session screen with tabs for items, participants, and summary."""
 
     dialog = None
-    tabs = ObjectProperty(None)
 
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
@@ -70,7 +72,7 @@ class SessionScreen(MDScreen):
 
         code_label = MDLabel(
             text="Session Code:",
-            theme_font_size="Body",
+            font_style='Body1',
             theme_text_color="Custom",
             text_color=(1, 1, 1, 0.7),
             halign='left',
@@ -80,14 +82,13 @@ class SessionScreen(MDScreen):
 
         self.code_value = MDLabel(
             text="------",
-            theme_font_size="Title",
-            font_style="Bold",
+            font_style='H6',
             theme_text_color="Custom",
             text_color=(1, 1, 1, 1),
             halign='left',
             size_hint_x=0.6,
         )
-        code_row.add_widget(code_value)
+        code_row.add_widget(self.code_value)
 
         header.add_widget(code_row)
 
@@ -101,7 +102,7 @@ class SessionScreen(MDScreen):
 
         status_label = MDLabel(
             text="Status:",
-            theme_font_size="Body",
+            font_style='Body1',
             theme_text_color="Custom",
             text_color=(1, 1, 1, 0.7),
             halign='left',
@@ -111,14 +112,13 @@ class SessionScreen(MDScreen):
 
         self.status_value = MDLabel(
             text="Active",
-            theme_font_size="Body",
-            font_style="Medium",
+            font_style='Body1',
             theme_text_color="Custom",
             text_color=(1, 1, 1, 1),
             halign='left',
             size_hint_x=0.6,
         )
-        status_row.add_widget(status_value)
+        status_row.add_widget(self.status_value)
 
         header.add_widget(status_row)
 
@@ -132,7 +132,7 @@ class SessionScreen(MDScreen):
 
         total_label = MDLabel(
             text="Total:",
-            theme_font_size="Body",
+            font_style='Body1',
             theme_text_color="Custom",
             text_color=(1, 1, 1, 0.7),
             halign='left',
@@ -142,8 +142,7 @@ class SessionScreen(MDScreen):
 
         self.total_value = MDLabel(
             text="₦0.00",
-            theme_font_size="Title",
-            font_style="Bold",
+            font_style='H6',
             theme_text_color="Custom",
             text_color=(1, 1, 1, 1),
             halign='left',
@@ -155,46 +154,49 @@ class SessionScreen(MDScreen):
 
         main_layout.add_widget(header)
 
-        # Tabs
-        self.tabs = MDTabs(
-            on_tab_switch=self._on_tab_switch,
-        )
-
-        # Items tab
-        items_tab = MDTabsItem(
-            MDTabsItemText(text="Items"),
-        )
-        self.tabs.add_widget(items_tab)
-
-        # Participants tab
-        participants_tab = MDTabsItem(
-            MDTabsItemText(text="People"),
-        )
-        self.tabs.add_widget(participants_tab)
-
-        # Summary tab
-        summary_tab = MDTabsItem(
-            MDTabsItemText(text="Summary"),
-        )
-        self.tabs.add_widget(summary_tab)
-
-        main_layout.add_widget(self.tabs)
-
-        # Tab content container
+        # Content container (we'll use simple switching instead of tabs for compatibility)
         self.content_container = MDBoxLayout(
             orientation='vertical',
             size_hint_y=1,
         )
         main_layout.add_widget(self.content_container)
 
-        # FAB for adding items
-        fab = MDButton(
-            MDButtonIcon(icon="plus"),
-            style="fab",
-            pos_hint={'right': 0.95, 'bottom': 0.95},
+        # Bottom navigation bar
+        nav_bar = MDCard(
+            orientation='horizontal',
+            padding='8dp',
+            spacing='8dp',
+            radius=[0],
+            elevation=4,
+            size_hint_y=None,
+            height='50dp',
+        )
+
+        items_btn = MDFlatButton(
+            text="Items",
+            on_release=lambda x: self._show_items_content(),
+        )
+        nav_bar.add_widget(items_btn)
+
+        people_btn = MDFlatButton(
+            text="People",
+            on_release=lambda x: self._show_participants_content(),
+        )
+        nav_bar.add_widget(people_btn)
+
+        summary_btn = MDFlatButton(
+            text="Summary",
+            on_release=lambda x: self._show_summary_content(),
+        )
+        nav_bar.add_widget(summary_btn)
+
+        add_btn = MDRaisedButton(
+            text="+ Add",
             on_release=self._show_add_item_dialog,
         )
-        main_layout.add_widget(fab)
+        nav_bar.add_widget(add_btn)
+
+        main_layout.add_widget(nav_bar)
 
         # Bottom action bar
         actions = MDCard(
@@ -207,26 +209,21 @@ class SessionScreen(MDScreen):
             height='60dp',
         )
 
-        scan_btn = MDButton(
-            MDButtonIcon(icon="camera"),
-            MDButtonText(text="Scan"),
-            style="outlined",
+        scan_btn = MDFlatButton(
+            text="Scan",
+            icon="camera",
             on_release=self._on_scan_receipt,
         )
         actions.add_widget(scan_btn)
 
-        auto_btn = MDButton(
-            MDButtonIcon(icon="account-multiple"),
-            MDButtonText(text="Split All"),
-            style="outlined",
+        auto_btn = MDFlatButton(
+            text="Split All",
             on_release=self._on_auto_assign,
         )
         actions.add_widget(auto_btn)
 
-        lock_btn = MDButton(
-            MDButtonIcon(icon="lock"),
-            MDButtonText(text="Lock"),
-            style="filled",
+        lock_btn = MDRaisedButton(
+            text="Lock",
             on_release=self._on_lock_session,
         )
         actions.add_widget(lock_btn)
@@ -238,20 +235,11 @@ class SessionScreen(MDScreen):
         # Initialize with items content
         self._show_items_content()
 
-    def _on_tab_switch(self, instance_tabs, instance_tab, instance_tab_label, tab_text):
-        """Handle tab switch."""
-        self.content_container.clear_widgets()
-
-        if tab_text == "Items":
-            self._show_items_content()
-        elif tab_text == "People":
-            self._show_participants_content()
-        elif tab_text == "Summary":
-            self._show_summary_content()
-
     def _show_items_content(self):
         """Show items list."""
-        scroll = MDScrollLayout()
+        self.content_container.clear_widgets()
+
+        scroll = MDScrollView()
 
         container = MDBoxLayout(
             orientation='vertical',
@@ -263,8 +251,8 @@ class SessionScreen(MDScreen):
 
         if not app_state.items:
             empty_label = MDLabel(
-                text="No items yet.\nTap + to add items or scan a receipt.",
-                theme_font_size="Body",
+                text="No items yet.\nTap 'Add' to add items or scan a receipt.",
+                font_style='Body1',
                 halign='center',
                 theme_text_color="Secondary",
                 size_hint_y=None,
@@ -291,7 +279,9 @@ class SessionScreen(MDScreen):
 
     def _show_participants_content(self):
         """Show participants list."""
-        scroll = MDScrollLayout()
+        self.content_container.clear_widgets()
+
+        scroll = MDScrollView()
 
         container = MDBoxLayout(
             orientation='vertical',
@@ -304,54 +294,60 @@ class SessionScreen(MDScreen):
         # Current user highlight
         current_label = MDLabel(
             text="You",
-            theme_font_size="Title",
-            font_style="Medium",
+            font_style='H6',
             size_hint_y=None,
             height='40dp',
         )
         container.add_widget(current_label)
 
         if app_state.participant:
-            chip = ParticipantChip(
-                name=app_state.participant_name,
-                color=app_state.participant_color,
-                show_share=True,
-                share=app_state.participant_shares.get(app_state.participant_id, 0),
+            name_label = MDLabel(
+                text=f"  {app_state.participant_name}",
+                font_style='Body1',
+                size_hint_y=None,
+                height='30dp',
             )
-            container.add_widget(chip)
+            container.add_widget(name_label)
 
-        # Divider
-        container.add_widget(MDDivider(
-            size_hint_y=None,
-            height='20dp',
-        ))
+            share = app_state.participant_shares.get(app_state.participant_id, 0)
+            share_label = MDLabel(
+                text=f"  Your share: ₦{share:,.2f}",
+                font_style='Body1',
+                theme_text_color="Primary",
+                size_hint_y=None,
+                height='30dp',
+            )
+            container.add_widget(share_label)
 
         # Other participants
         others_label = MDLabel(
-            text="Others in this session",
-            theme_font_size="Title",
-            font_style="Medium",
+            text="\nOthers in this session",
+            font_style='H6',
             size_hint_y=None,
-            height='40dp',
+            height='50dp',
         )
         container.add_widget(others_label)
 
         for p in app_state.participants:
             if p.get('id') != app_state.participant_id:
-                chip = ParticipantChip(
-                    name=p.get('name', 'Unknown'),
-                    color=p.get('color', '#2196F3'),
-                    show_share=True,
-                    share=app_state.participant_shares.get(p.get('id'), 0),
+                name = p.get('name', 'Unknown')
+                share = app_state.participant_shares.get(p.get('id'), 0)
+                person_label = MDLabel(
+                    text=f"  {name}: ₦{share:,.2f}",
+                    font_style='Body1',
+                    size_hint_y=None,
+                    height='30dp',
                 )
-                container.add_widget(chip)
+                container.add_widget(person_label)
 
         scroll.add_widget(container)
         self.content_container.add_widget(scroll)
 
     def _show_summary_content(self):
         """Show settlement summary."""
-        scroll = MDScrollLayout()
+        self.content_container.clear_widgets()
+
+        scroll = MDScrollView()
 
         container = MDBoxLayout(
             orientation='vertical',
@@ -372,8 +368,7 @@ class SessionScreen(MDScreen):
 
         summary_title = MDLabel(
             text="Session Summary",
-            theme_font_size="Title",
-            font_style="Medium",
+            font_style='H6',
         )
         summary_card.add_widget(summary_title)
 
@@ -419,9 +414,6 @@ class SessionScreen(MDScreen):
         ))
         summary_card.add_widget(tip_row)
 
-        # Divider
-        summary_card.add_widget(MDDivider())
-
         # Total
         total_row = MDBoxLayout(
             orientation='horizontal',
@@ -430,14 +422,12 @@ class SessionScreen(MDScreen):
         )
         total_row.add_widget(MDLabel(
             text="Total:",
-            theme_font_size="Title",
-            font_style="Bold",
+            font_style='H6',
             size_hint_x=0.5,
         ))
         total_row.add_widget(MDLabel(
             text=app_state.format_currency(app_state.session.get('total_amount', 0)),
-            theme_font_size="Title",
-            font_style="Bold",
+            font_style='H6',
             halign='right',
             theme_text_color="Primary",
             size_hint_x=0.5,
@@ -457,16 +447,14 @@ class SessionScreen(MDScreen):
 
         share_title = MDLabel(
             text="Your Share",
-            theme_font_size="Title",
-            font_style="Medium",
+            font_style='H6',
         )
         share_card.add_widget(share_title)
 
         your_share = app_state.participant_shares.get(app_state.participant_id, 0)
         share_value = MDLabel(
             text=app_state.format_currency(your_share),
-            theme_font_size="Headline",
-            font_style="Bold",
+            font_style='H4',
             theme_text_color="Primary",
             halign='center',
         )
@@ -484,21 +472,19 @@ class SessionScreen(MDScreen):
             title="Add Item",
             content_cls=content,
             buttons=[
-                MDButton(
-                    MDButtonText(text="Cancel"),
-                    style="text",
+                MDFlatButton(
+                    text="Cancel",
                     on_release=lambda x: self.dialog.dismiss(),
                 ),
-                MDButton(
-                    MDButtonText(text="Add"),
-                    style="text",
+                MDRaisedButton(
+                    text="Add",
                     on_release=lambda x: self._add_item(content),
                 ),
             ],
         )
         self.dialog.open()
 
-    def _add_item(self, content: AddItemDialog):
+    def _add_item(self, content):
         """Add item to session."""
         data = content.get_item_data()
         if not data or not data.get('description'):
@@ -519,8 +505,6 @@ class SessionScreen(MDScreen):
 
     def _show_assign_dialog(self, item_id: int):
         """Show dialog to assign item to participants."""
-        # For simplicity, show a basic assignment dialog
-        # In a full implementation, this would show a multi-select of participants
         self._show_snackbar(f"Assign item #{item_id} - Select participants")
 
     def _delete_item(self, item_id: int):
@@ -583,9 +567,7 @@ class SessionScreen(MDScreen):
 
     def _on_items_update(self, instance, value):
         """Handle items update."""
-        if self.tabs and hasattr(self.tabs, 'current_tab'):
-            # Refresh current content
-            pass
+        pass
 
     def _on_participants_update(self, instance, value):
         """Handle participants update."""
@@ -593,11 +575,7 @@ class SessionScreen(MDScreen):
 
     def _show_snackbar(self, message: str):
         """Show a snackbar message."""
-        MDSnackbar(
-            MDSnackbarText(text=message),
-            y='24dp',
-            pos_hint={'center_x': 0.5},
-        ).open()
+        Snackbar(text=message).open()
 
     def on_enter(self):
         """Called when screen is entered."""

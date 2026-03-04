@@ -2,6 +2,7 @@
 """
 Tap & Split - Bill Splitting App
 Main entry point for KivyMD frontend
+Compatible with KivyMD 1.2.0
 """
 
 import sys
@@ -15,10 +16,6 @@ from kivy.app import App
 from kivy.uix.screenmanager import ScreenManager
 from kivymd.app import MDApp
 from kivymd.uix.screen import MDScreen
-from kivymd.uix.boxlayout import MDBoxLayout
-from kivymd.uix.label import MDLabel
-from kivymd.uix.button import MDButton, MDButtonText
-from kivymd.uix.dialog import MDDialog
 from kivy.core.window import Window
 from kivy.clock import Clock
 

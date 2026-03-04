@@ -1,12 +1,11 @@
 # components/item_card.py - Item card component
-from kivy.properties import StringProperty, NumericProperty, ListProperty, DictProperty, BooleanProperty
+# Compatible with KivyMD 1.2.0
+from kivy.properties import StringProperty, NumericProperty, ListProperty, BooleanProperty
 from kivymd.uix.card import MDCard
 from kivymd.uix.boxlayout import MDBoxLayout
 from kivymd.uix.label import MDLabel
-from kivymd.uix.button import MDButton, MDButtonText, MDButtonIcon
-from kivymd.uix.chip import MDChip, MDChipText
-from kivymd.uix.widget import MDWidget
-from participant_chip import ParticipantChip
+from kivymd.uix.button import MDFlatButton, MDIconButton
+from kivymd.uix.chip import MDChip
 
 
 class ItemCard(MDCard):
@@ -31,7 +30,6 @@ class ItemCard(MDCard):
         self.spacing = '8dp'
         self.radius = [12]
         self.elevation = 2
-        self.ripple_behavior = True
 
         self._build_ui()
 
@@ -57,8 +55,7 @@ class ItemCard(MDCard):
         # Description
         desc_label = MDLabel(
             text=self.description,
-            theme_font_size="Body",
-            font_style="Medium",
+            font_style='Body1',
             halign='left',
             size_hint_x=0.6,
         )
@@ -67,8 +64,7 @@ class ItemCard(MDCard):
         # Amount
         amount_label = MDLabel(
             text=f"₦{self.amount:,.2f}",
-            theme_font_size="Body",
-            font_style="Bold",
+            font_style='Body1',
             theme_text_color="Primary",
             halign='right',
             size_hint_x=0.4,
@@ -81,7 +77,7 @@ class ItemCard(MDCard):
         if self.quantity > 1:
             qty_label = MDLabel(
                 text=f"Qty: {self.quantity}",
-                theme_font_size="Caption",
+                font_style='Caption',
                 theme_text_color="Secondary",
                 halign='left',
                 size_hint_y=None,
@@ -101,7 +97,7 @@ class ItemCard(MDCard):
 
             assign_label = MDLabel(
                 text="Split with:",
-                theme_font_size="Caption",
+                font_style='Caption',
                 theme_text_color="Secondary",
                 halign='left',
                 size_hint_x=None,
@@ -113,10 +109,9 @@ class ItemCard(MDCard):
                 participant = self._get_participant(assignment.get('participant_id', 0))
                 if participant:
                     chip = MDChip(
-                        MDChipText(text=participant.get('name', '?')),
-                        style="assist",
+                        label=participant.get('name', '?'),
                         size_hint_x=None,
-                        width='auto',
+                        width='80dp',
                     )
                     assign_container.add_widget(chip)
 
@@ -127,7 +122,7 @@ class ItemCard(MDCard):
         if unassigned > 0 and not self.assignments:
             warning = MDLabel(
                 text=f"⚠ Unassigned: ₦{unassigned:,.2f}",
-                theme_font_size="Caption",
+                font_style='Caption',
                 theme_text_color="Error",
                 halign='left',
                 size_hint_y=None,
@@ -139,7 +134,7 @@ class ItemCard(MDCard):
         if self.disputed:
             disputed_label = MDLabel(
                 text="⚠ This item is disputed",
-                theme_font_size="Caption",
+                font_style='Caption',
                 theme_text_color="Error",
                 halign='left',
                 size_hint_y=None,
@@ -157,32 +152,29 @@ class ItemCard(MDCard):
         )
 
         if self.on_assign:
-            assign_btn = MDButton(
-                MDButtonText(text="Assign"),
-                style="text",
-                theme_width="custom",
+            assign_btn = MDFlatButton(
+                text="Assign",
+                size_hint_x=None,
                 width='80dp',
                 on_release=lambda x: self.on_assign(self.item_id) if self.on_assign else None,
             )
             actions.add_widget(assign_btn)
 
         if self.on_edit:
-            edit_btn = MDButton(
-                MDButtonText(text="Edit"),
-                style="text",
-                theme_width="custom",
+            edit_btn = MDFlatButton(
+                text="Edit",
+                size_hint_x=None,
                 width='60dp',
                 on_release=lambda x: self.on_edit(self.item_id) if self.on_edit else None,
             )
             actions.add_widget(edit_btn)
 
         if self.on_delete:
-            delete_btn = MDButton(
-                MDButtonText(text="Delete"),
-                style="text",
-                theme_text_color="Error",
-                theme_width="custom",
+            delete_btn = MDFlatButton(
+                text="Delete",
+                size_hint_x=None,
                 width='70dp',
+                theme_text_color="Error",
                 on_release=lambda x: self.on_delete(self.item_id) if self.on_delete else None,
             )
             actions.add_widget(delete_btn)
