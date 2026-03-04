@@ -1,11 +1,11 @@
-# frontend/components/session_view.py
+# flet_app/components/session_view.py
 import flet as ft
 from typing import Optional, Callable
-from frontend.state import state
-from frontend.api_client import api_client
-from frontend.components.participant_avatar import ParticipantsRow
-from frontend.components.item_card import ItemList
-from frontend.components.summary_card import SummaryCard
+from state import state
+from api_client import api_client
+from components.participant_avatar import ParticipantsRow
+from components.item_card import ItemList
+from components.summary_card import SummaryCard
 
 
 class SessionView(ft.Column):

@@ -1,4 +1,4 @@
-# frontend/main.py
+# flet_app/main.py
 """
 Tap & Split - Main Entry Point
 
@@ -8,10 +8,10 @@ Run with: flet run main.py
 import flet as ft
 import asyncio
 
-from frontend.state import state
-from frontend.api_client import api_client
-from frontend.components.home_view import HomeView
-from frontend.components.session_view import SessionView
+from state import state
+from api_client import api_client
+from components.home_view import HomeView
+from components.session_view import SessionView
 
 
 def main(page: ft.Page):

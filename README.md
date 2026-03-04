@@ -81,7 +81,7 @@ A real-time collaborative bill-splitting application where users join a session 
 
 4. **Frontend Setup** (in a new terminal)
    ```bash
-   cd frontend
+   cd flet_app
 
    # Create virtual environment
    python -m venv venv
@@ -162,7 +162,7 @@ tap_split/
 │   │   └── websocket.py
 │   ├── requirements.txt
 │   └── Dockerfile
-├── frontend/
+├── flet_app/
 │   ├── main.py                  # Entry point
 │   ├── state.py                 # State management
 │   ├── api_client.py            # HTTP client

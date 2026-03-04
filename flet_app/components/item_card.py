@@ -1,8 +1,8 @@
-# frontend/components/item_card.py
+# flet_app/components/item_card.py
 import flet as ft
 from typing import Optional, Callable, List, Dict
-from frontend.state import state
-from frontend.api_client import api_client
+from state import state
+from api_client import api_client
 
 
 class ItemCard(ft.Container):

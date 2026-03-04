@@ -1,11 +1,11 @@
-# frontend/components/home_view.py
+# flet_app/components/home_view.py
 import flet as ft
 from typing import Optional, Callable
 import uuid
 import asyncio
 
-from frontend.state import state
-from frontend.api_client import api_client
+from state import state
+from api_client import api_client
 
 
 class HomeView(ft.Column):
