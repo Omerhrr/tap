@@ -8,13 +8,14 @@ A real-time collaborative bill-splitting application where users join a session 
 - **Receipt Scanning**: OCR-powered receipt parsing using Tesseract
 - **Drag & Drop Assignment**: Assign items to participants with intuitive UI
 - **Smart Settlement**: Optimized transaction calculation to minimize payments
-- **Cross-platform**: Works on mobile, desktop, and web
+- **Cross-platform**: Works on mobile, desktop (Kivy/KivyMD)
+- **Material Design**: Beautiful UI with KivyMD components
 
 ## Architecture
 
 ```
 ┌─────────────┐      WebSocket       ┌─────────────┐
-│  Flet App   │ ◄──────────────────► │  FastAPI    │
+│  Kivy App   │ ◄──────────────────► │  FastAPI    │
 │  (Mobile/   │      HTTP/REST       │   Server    │
 │   Desktop)  │ ◄──────────────────► │             │
 └──────┬──────┘                      └──────┬──────┘
@@ -79,9 +80,9 @@ A real-time collaborative bill-splitting application where users join a session 
    uvicorn app.main:app --reload --port 8000
    ```
 
-4. **Frontend Setup** (in a new terminal)
+4. **Frontend Setup (Kivy/KivyMD)** (in a new terminal)
    ```bash
-   cd flet_app
+   cd kivy_app
 
    # Create virtual environment
    python -m venv venv
@@ -91,7 +92,7 @@ A real-time collaborative bill-splitting application where users join a session 
    pip install -r requirements.txt
 
    # Run the app
-   flet run main.py
+   python main.py
    ```
 
 ### Using Docker
@@ -162,17 +163,19 @@ tap_split/
 │   │   └── websocket.py
 │   ├── requirements.txt
 │   └── Dockerfile
-├── flet_app/
+├── kivy_app/
 │   ├── main.py                  # Entry point
 │   ├── state.py                 # State management
 │   ├── api_client.py            # HTTP client
+│   ├── screens/
+│   │   ├── home_screen.py
+│   │   └── session_screen.py
 │   ├── components/
-│   │   ├── home_view.py
-│   │   ├── session_view.py
+│   │   ├── dialogs.py
 │   │   ├── item_card.py
-│   │   ├── participant_avatar.py
-│   │   └── summary_card.py
+│   │   └── participant_chip.py
 │   └── requirements.txt
+├── flet_app/                    # Legacy Flet frontend (deprecated)
 ├── docker-compose.yml
 └── README.md
 ```
@@ -206,6 +209,10 @@ HOST=0.0.0.0
 PORT=8000
 RELOAD=True
 ```
+
+## Currency
+
+The app uses Nigerian Naira (₦) as the default currency.
 
 ## License
 
