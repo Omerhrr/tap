@@ -17,20 +17,16 @@ class HomeView(ft.Column):
         self._page = page
         self.on_session_joined = on_session_joined
         self.expand = True
-
-        # Generate device ID
         self.device_id = str(uuid.uuid4())[:8]
-
-        # Build the view
         self.controls = self._build_controls()
 
     def _build_controls(self) -> list:
         """Build the view's controls."""
-        # Logo and title
+        # Logo and title using text-based emoji instead of icon
         logo = ft.Column(
             controls=[
-                ft.Icon(name="restaurant", size=80, color="indigo"),
-                ft.Text("Tap & Split", size=36, weight="bold", color="indigo"),
+                ft.Text("🍽️", size=60),
+                ft.Text("Tap & Split", size=32, weight="bold", color="#3F51B5"),
                 ft.Text("Split bills effortlessly", size=16, color="grey"),
             ],
             horizontal_alignment="center",
@@ -48,7 +44,7 @@ class HomeView(ft.Column):
         create_btn = ft.ElevatedButton(
             "Create New Session",
             icon="add_circle",
-            bgcolor="indigo",
+            bgcolor="#3F51B5",
             color="white",
             on_click=self._on_create_click,
             width=280
@@ -74,7 +70,7 @@ class HomeView(ft.Column):
         join_btn = ft.ElevatedButton(
             "Join Session",
             icon="login",
-            bgcolor="green",
+            bgcolor="#4CAF50",
             color="white",
             on_click=self._on_join_click,
             width=280
