@@ -31,7 +31,7 @@ class HomeView(ft.Column):
         logo = ft.Column(
             controls=[
                 ft.Icon(
-                    ft.icons.RESTAURANT_MENU,
+                    ft.Icons.RESTAURANT,
                     size=80,
                     color=ft.Colors.INDIGO
                 ),
@@ -63,7 +63,7 @@ class HomeView(ft.Column):
         # Create session button
         create_btn = ft.ElevatedButton(
             "Create New Session",
-            icon=ft.icons.ADD_CIRCLE,
+            icon=ft.Icons.ADD_CIRCLE,
             bgcolor=ft.Colors.INDIGO,
             color=ft.Colors.WHITE,
             size=ft.ButtonSize.LARGE,
@@ -92,7 +92,7 @@ class HomeView(ft.Column):
 
         join_btn = ft.ElevatedButton(
             "Join Session",
-            icon=ft.icons.LOGIN,
+            icon=ft.Icons.LOGIN,
             bgcolor=ft.Colors.GREEN,
             color=ft.Colors.WHITE,
             size=ft.ButtonSize.LARGE,

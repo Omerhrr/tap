@@ -46,7 +46,7 @@ class ParticipantAvatar(ft.Draggable):
                     avatar_content,
                     ft.Container(
                         content=ft.Icon(
-                            ft.icons.STAR,
+                            ft.Icons.STAR,
                             size=12,
                             color=ft.Colors.YELLOW
                         ),
@@ -117,7 +117,7 @@ class ParticipantChip(ft.Chip):
                 color=ft.Colors.WHITE
             ),
             bgcolor=participant.get('color', '#2196F3'),
-            delete_icon=ft.icons.CLOSE,
+            delete_icon=ft.Icons.CLOSE,
             on_delete=on_delete,
             padding=ft.padding.symmetric(horizontal=8, vertical=4)
         )

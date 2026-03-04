@@ -33,7 +33,7 @@ class SessionView(ft.Column):
             content=ft.Row(
                 controls=[
                     ft.IconButton(
-                        icon=ft.icons.ARROW_BACK,
+                        icon=ft.Icons.ARROW_BACK,
                         on_click=self._on_back_click
                     ),
                     ft.Text(
@@ -43,7 +43,7 @@ class SessionView(ft.Column):
                         expand=True
                     ),
                     ft.IconButton(
-                        icon=ft.icons.QR_CODE,
+                        icon=ft.Icons.QR_CODE,
                         on_click=self._on_qr_click,
                         tooltip="Show QR Code"
                     )
@@ -91,7 +91,7 @@ class SessionView(ft.Column):
             controls=[
                 ft.ElevatedButton(
                     "Scan Receipt",
-                    icon=ft.icons.CAMERA_ALT,
+                    icon=ft.Icons.CAMERA_ALT,
                     bgcolor=ft.Colors.BLUE,
                     color=ft.Colors.WHITE,
                     on_click=self._on_scan_click,
@@ -99,7 +99,7 @@ class SessionView(ft.Column):
                 ),
                 ft.ElevatedButton(
                     "Add Item",
-                    icon=ft.icons.ADD,
+                    icon=ft.Icons.ADD,
                     bgcolor=ft.Colors.GREEN,
                     color=ft.Colors.WHITE,
                     on_click=self._on_add_item_click,
@@ -119,7 +119,7 @@ class SessionView(ft.Column):
                 ),
                 ft.ElevatedButton(
                     "Auto Split",
-                    icon=ft.icons.CALL_SPLIT,
+                    icon=ft.Icons.CALL_SPLIT,
                     on_click=self._on_auto_split_click,
                     style=ft.ButtonStyle(
                         bgcolor=ft.Colors.INDIGO_50,
@@ -297,7 +297,7 @@ class SessionView(ft.Column):
                     ft.Text("Upload a photo of your receipt"),
                     ft.ElevatedButton(
                         "Choose Image",
-                        icon=ft.icons.UPLOAD_FILE,
+                        icon=ft.Icons.UPLOAD_FILE,
                         on_click=lambda _: file_picker.pick_files(
                             allowed_extensions=["jpg", "jpeg", "png", "heic"]
                         )

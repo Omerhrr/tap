@@ -162,7 +162,7 @@ class SummaryCard(ft.Container):
             action_buttons.controls.append(
                 ft.ElevatedButton(
                     "Lock Session",
-                    icon=ft.icons.LOCK,
+                    icon=ft.Icons.LOCK,
                     bgcolor=ft.Colors.INDIGO,
                     color=ft.Colors.WHITE,
                     on_click=self._on_lock_click,
@@ -173,7 +173,7 @@ class SummaryCard(ft.Container):
             action_buttons.controls.append(
                 ft.ElevatedButton(
                     "Mark Settled",
-                    icon=ft.icons.CHECK_CIRCLE,
+                    icon=ft.Icons.CHECK_CIRCLE,
                     bgcolor=ft.Colors.GREEN,
                     color=ft.Colors.WHITE,
                     on_click=self._on_settle_click,

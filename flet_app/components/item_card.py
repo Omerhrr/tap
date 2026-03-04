@@ -78,14 +78,14 @@ class ItemCard(ft.Container):
                 ft.Row(
                     controls=[
                         ft.IconButton(
-                            icon=ft.icons.WARNING_ROUNDED if self.item.get('is_disputed') else ft.icons.EDIT,
+                            icon=ft.Icons.WARNING if self.item.get('is_disputed') else ft.Icons.EDIT,
                             icon_color=ft.Colors.ORANGE if self.item.get('is_disputed') else ft.Colors.GREY_500,
                             icon_size=20,
                             on_click=self._on_edit_click,
                             tooltip="Disputed" if self.item.get('is_disputed') else "Edit"
                         ),
                         ft.IconButton(
-                            icon=ft.icons.DELETE_OUTLINE,
+                            icon=ft.Icons.DELETE_OUTLINE,
                             icon_color=ft.Colors.RED_400,
                             icon_size=20,
                             on_click=self._on_delete_click,
@@ -144,7 +144,7 @@ class ItemCard(ft.Container):
                         color=ft.Colors.WHITE
                     ),
                     bgcolor=participant.get('color', '#2196F3'),
-                    delete_icon=ft.icons.CLOSE,
+                    delete_icon=ft.Icons.CLOSE,
                     on_delete=lambda e, aid=assignment['id']: self._remove_assignment(aid)
                 )
                 chips_row.controls.append(chip)
