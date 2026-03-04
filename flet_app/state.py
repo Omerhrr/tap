@@ -1,4 +1,4 @@
-# frontend/state.py
+# flet_app/state.py
 from typing import Callable, List, Dict, Optional
 import json
 import asyncio

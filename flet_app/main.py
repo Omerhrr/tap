@@ -15,16 +15,10 @@ from components.session_view import SessionView
 
 
 def main(page: ft.Page):
-    """
-    Main application entry point.
-
-    Args:
-        page: Flet page instance
-    """
+    """Main application entry point."""
     # Configure page
     page.title = "Tap & Split"
     page.theme_mode = ft.ThemeMode.LIGHT
-    page.bgcolor = "#F5F5F5"  # Grey 100 equivalent
 
     # Current view
     current_view = None
@@ -33,10 +27,7 @@ def main(page: ft.Page):
         """Show the home view."""
         nonlocal current_view
         page.clean()
-        current_view = HomeView(
-            page=page,
-            on_session_joined=show_session
-        )
+        current_view = HomeView(page, on_session_joined=show_session)
         page.add(current_view)
         page.update()
 
@@ -44,19 +35,15 @@ def main(page: ft.Page):
         """Show the session view."""
         nonlocal current_view
         page.clean()
-        current_view = SessionView(page=page)
+        current_view = SessionView(page)
         page.add(current_view)
         page.update()
 
     def on_disconnect(e):
         """Handle page disconnect."""
-        # Close WebSocket connection
         asyncio.create_task(state.disconnect_websocket())
 
-    # Register disconnect handler
     page.on_disconnect = on_disconnect
-
-    # Start with home view
     show_home()
 
 

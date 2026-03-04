@@ -3,15 +3,14 @@ import flet as ft
 from typing import Optional, Callable
 import uuid
 import asyncio
+import random
 
 from state import state
 from api_client import api_client
 
 
 class HomeView(ft.Column):
-    """
-    Home view for creating or joining a session.
-    """
+    """Home view for creating or joining a session."""
 
     def __init__(self, page: ft.Page, on_session_joined: Optional[Callable] = None):
         super().__init__()
@@ -30,24 +29,11 @@ class HomeView(ft.Column):
         # Logo and title
         logo = ft.Column(
             controls=[
-                ft.Icon(
-                    ft.Icons.RESTAURANT,
-                    size=80,
-                    color=ft.Colors.INDIGO
-                ),
-                ft.Text(
-                    "Tap & Split",
-                    size=36,
-                    weight=ft.FontWeight.BOLD,
-                    color=ft.Colors.INDIGO
-                ),
-                ft.Text(
-                    "Split bills effortlessly",
-                    size=16,
-                    color=ft.Colors.GREY_600
-                )
+                ft.Icon(name="restaurant", size=80, color="indigo"),
+                ft.Text("Tap & Split", size=36, weight="bold", color="indigo"),
+                ft.Text("Split bills effortlessly", size=16, color="grey"),
             ],
-            horizontal_alignment=ft.CrossAxisAlignment.CENTER,
+            horizontal_alignment="center",
             spacing=8
         )
 
@@ -56,17 +42,14 @@ class HomeView(ft.Column):
             label="Your Name",
             hint_text="Enter your name",
             autofocus=True,
-            capitalization=ft.TextCapitalization.WORDS,
-            on_submit=self._on_name_submit
         )
 
         # Create session button
         create_btn = ft.ElevatedButton(
             "Create New Session",
-            icon=ft.Icons.ADD_CIRCLE,
-            bgcolor=ft.Colors.INDIGO,
-            color=ft.Colors.WHITE,
-            size=ft.ButtonSize.LARGE,
+            icon="add_circle",
+            bgcolor="indigo",
+            color="white",
             on_click=self._on_create_click,
             width=280
         )
@@ -74,11 +57,11 @@ class HomeView(ft.Column):
         # Divider
         divider = ft.Row(
             controls=[
-                ft.Divider(expand=True, color=ft.Colors.GREY_400),
-                ft.Text("or", color=ft.Colors.GREY_600),
-                ft.Divider(expand=True, color=ft.Colors.GREY_400)
+                ft.Divider(expand=True, color="grey"),
+                ft.Text("or", color="grey"),
+                ft.Divider(expand=True, color="grey")
             ],
-            alignment=ft.MainAxisAlignment.CENTER
+            alignment="center"
         )
 
         # Join session section
@@ -86,16 +69,13 @@ class HomeView(ft.Column):
             label="Session Code",
             hint_text="Enter 6-character code",
             max_length=6,
-            capitalization=ft.TextCapitalization.CHARACTERS,
-            on_submit=self._on_join_click
         )
 
         join_btn = ft.ElevatedButton(
             "Join Session",
-            icon=ft.Icons.LOGIN,
-            bgcolor=ft.Colors.GREEN,
-            color=ft.Colors.WHITE,
-            size=ft.ButtonSize.LARGE,
+            icon="login",
+            bgcolor="green",
+            color="white",
             on_click=self._on_join_click,
             width=280
         )
@@ -103,10 +83,10 @@ class HomeView(ft.Column):
         join_section = ft.Column(
             controls=[
                 self.join_code_field,
-                ft.Divider(height=8, color=ft.Colors.TRANSPARENT),
+                ft.Divider(height=8, color="transparent"),
                 join_btn
             ],
-            horizontal_alignment=ft.CrossAxisAlignment.CENTER,
+            horizontal_alignment="center",
             width=280
         )
 
@@ -114,26 +94,21 @@ class HomeView(ft.Column):
         content = ft.Column(
             controls=[
                 logo,
-                ft.Divider(height=32, color=ft.Colors.TRANSPARENT),
+                ft.Divider(height=32, color="transparent"),
                 self.name_field,
-                ft.Divider(height=16, color=ft.Colors.TRANSPARENT),
+                ft.Divider(height=16, color="transparent"),
                 create_btn,
-                ft.Divider(height=24, color=ft.Colors.TRANSPARENT),
+                ft.Divider(height=24, color="transparent"),
                 divider,
-                ft.Divider(height=24, color=ft.Colors.TRANSPARENT),
+                ft.Divider(height=24, color="transparent"),
                 join_section
             ],
-            horizontal_alignment=ft.CrossAxisAlignment.CENTER,
-            alignment=ft.MainAxisAlignment.CENTER,
+            horizontal_alignment="center",
+            alignment="center",
             expand=True
         )
 
         return [content]
-
-    def _on_name_submit(self, e):
-        """Handle name field submit."""
-        # Focus on next field or action
-        pass
 
     async def _on_create_click(self, e):
         """Handle create session button click."""
@@ -143,10 +118,7 @@ class HomeView(ft.Column):
             return
 
         try:
-            # Create session
             session_data = await api_client.create_session()
-
-            # Join the session
             participant_data = await api_client.join_session(
                 session_data['id'],
                 {
@@ -156,16 +128,12 @@ class HomeView(ft.Column):
                 }
             )
 
-            # Update state
             state.device_id = self.device_id
             state.my_name = name
             state.participant_id = participant_data['id']
             state.update_session(session_data)
-
-            # Connect WebSocket
             await state.connect_websocket()
 
-            # Notify callback
             if self.on_session_joined:
                 self.on_session_joined()
 
@@ -186,10 +154,7 @@ class HomeView(ft.Column):
             return
 
         try:
-            # Get session by code
             session_data = await api_client.get_session(code)
-
-            # Join the session
             participant_data = await api_client.join_session(
                 session_data['id'],
                 {
@@ -199,16 +164,12 @@ class HomeView(ft.Column):
                 }
             )
 
-            # Update state
             state.device_id = self.device_id
             state.my_name = name
             state.participant_id = participant_data['id']
             state.update_session(session_data)
-
-            # Connect WebSocket
             await state.connect_websocket()
 
-            # Notify callback
             if self.on_session_joined:
                 self.on_session_joined()
 
@@ -217,7 +178,6 @@ class HomeView(ft.Column):
 
     def _generate_color(self) -> str:
         """Generate a random color for the participant."""
-        import random
         colors = [
             "#F44336", "#E91E63", "#9C27B0", "#673AB7",
             "#3F51B5", "#2196F3", "#00BCD4", "#009688",
@@ -228,9 +188,6 @@ class HomeView(ft.Column):
 
     def _show_error(self, message: str):
         """Show an error message."""
-        self._page.snack_bar = ft.SnackBar(
-            content=ft.Text(message),
-            bgcolor=ft.Colors.RED
-        )
+        self._page.snack_bar = ft.SnackBar(content=ft.Text(message), bgcolor="red")
         self._page.snack_bar.open = True
         self._page.update()
