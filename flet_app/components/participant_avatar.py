@@ -31,7 +31,7 @@ class ParticipantAvatar(ft.Draggable):
         avatar_content = ft.CircleAvatar(
             content=ft.Text(
                 participant['name'][0].upper(),
-                color=ft.colors.WHITE,
+                color=ft.Colors.WHITE,
                 weight=ft.FontWeight.BOLD,
                 size=18
             ),
@@ -48,7 +48,7 @@ class ParticipantAvatar(ft.Draggable):
                         content=ft.Icon(
                             ft.icons.STAR,
                             size=12,
-                            color=ft.colors.YELLOW
+                            color=ft.Colors.YELLOW
                         ),
                         alignment=ft.alignment.top_right,
                         padding=ft.padding.only(right=2, top=2)
@@ -114,7 +114,7 @@ class ParticipantChip(ft.Chip):
             label=ft.Text(
                 f"{participant['name']} {share_percent:.0f}%",
                 size=12,
-                color=ft.colors.WHITE
+                color=ft.Colors.WHITE
             ),
             bgcolor=participant.get('color', '#2196F3'),
             delete_icon=ft.icons.CLOSE,

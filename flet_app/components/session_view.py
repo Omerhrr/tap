@@ -50,7 +50,7 @@ class SessionView(ft.Column):
                 ],
                 alignment=ft.MainAxisAlignment.SPACE_BETWEEN
             ),
-            bgcolor=ft.colors.WHITE,
+            bgcolor=ft.Colors.WHITE,
             padding=ft.padding.symmetric(horizontal=8, vertical=4)
         )
 
@@ -63,12 +63,12 @@ class SessionView(ft.Column):
         participants_container = ft.Container(
             content=ft.Column(
                 controls=[
-                    ft.Text("Participants", size=14, color=ft.colors.GREY_600),
+                    ft.Text("Participants", size=14, color=ft.Colors.GREY_600),
                     self.participants_row
                 ],
                 spacing=8
             ),
-            bgcolor=ft.colors.GREY_50,
+            bgcolor=ft.Colors.GREY_50,
             padding=12,
             border_radius=ft.border_radius.all(8)
         )
@@ -92,16 +92,16 @@ class SessionView(ft.Column):
                 ft.ElevatedButton(
                     "Scan Receipt",
                     icon=ft.icons.CAMERA_ALT,
-                    bgcolor=ft.colors.BLUE,
-                    color=ft.colors.WHITE,
+                    bgcolor=ft.Colors.BLUE,
+                    color=ft.Colors.WHITE,
                     on_click=self._on_scan_click,
                     expand=True
                 ),
                 ft.ElevatedButton(
                     "Add Item",
                     icon=ft.icons.ADD,
-                    bgcolor=ft.colors.GREEN,
-                    color=ft.colors.WHITE,
+                    bgcolor=ft.Colors.GREEN,
+                    color=ft.Colors.WHITE,
                     on_click=self._on_add_item_click,
                     expand=True
                 )
@@ -122,8 +122,8 @@ class SessionView(ft.Column):
                     icon=ft.icons.CALL_SPLIT,
                     on_click=self._on_auto_split_click,
                     style=ft.ButtonStyle(
-                        bgcolor=ft.colors.INDIGO_50,
-                        color=ft.colors.INDIGO
+                        bgcolor=ft.Colors.INDIGO_50,
+                        color=ft.Colors.INDIGO
                     )
                 )
             ],
@@ -142,11 +142,11 @@ class SessionView(ft.Column):
         content = ft.Column(
             controls=[
                 participants_container,
-                ft.Divider(height=8, color=ft.colors.TRANSPARENT),
+                ft.Divider(height=8, color=ft.Colors.TRANSPARENT),
                 self.summary_card,
-                ft.Divider(height=8, color=ft.colors.TRANSPARENT),
+                ft.Divider(height=8, color=ft.Colors.TRANSPARENT),
                 action_buttons,
-                ft.Divider(height=16, color=ft.colors.TRANSPARENT),
+                ft.Divider(height=16, color=ft.Colors.TRANSPARENT),
                 items_header,
                 self.items_list
             ],
@@ -269,7 +269,7 @@ class SessionView(ft.Column):
                             state.session_code,
                             size=48,
                             weight=ft.FontWeight.BOLD,
-                            color=ft.colors.INDIGO
+                            color=ft.Colors.INDIGO
                         ),
                         alignment=ft.alignment.center,
                         padding=20
@@ -330,7 +330,7 @@ class SessionView(ft.Column):
             # Show processing indicator
             self.page.snack_bar = ft.SnackBar(
                 content=ft.Text("Processing receipt..."),
-                bgcolor=ft.colors.BLUE
+                bgcolor=ft.Colors.BLUE
             )
             self.page.snack_bar.open = True
             self.page.update()

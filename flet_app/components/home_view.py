@@ -33,18 +33,18 @@ class HomeView(ft.Column):
                 ft.Icon(
                     ft.icons.RESTAURANT_MENU,
                     size=80,
-                    color=ft.colors.INDIGO
+                    color=ft.Colors.INDIGO
                 ),
                 ft.Text(
                     "Tap & Split",
                     size=36,
                     weight=ft.FontWeight.BOLD,
-                    color=ft.colors.INDIGO
+                    color=ft.Colors.INDIGO
                 ),
                 ft.Text(
                     "Split bills effortlessly",
                     size=16,
-                    color=ft.colors.GREY_600
+                    color=ft.Colors.GREY_600
                 )
             ],
             horizontal_alignment=ft.CrossAxisAlignment.CENTER,
@@ -64,8 +64,8 @@ class HomeView(ft.Column):
         create_btn = ft.ElevatedButton(
             "Create New Session",
             icon=ft.icons.ADD_CIRCLE,
-            bgcolor=ft.colors.INDIGO,
-            color=ft.colors.WHITE,
+            bgcolor=ft.Colors.INDIGO,
+            color=ft.Colors.WHITE,
             size=ft.ButtonSize.LARGE,
             on_click=self._on_create_click,
             width=280
@@ -74,9 +74,9 @@ class HomeView(ft.Column):
         # Divider
         divider = ft.Row(
             controls=[
-                ft.Divider(expand=True, color=ft.colors.GREY_400),
-                ft.Text("or", color=ft.colors.GREY_600),
-                ft.Divider(expand=True, color=ft.colors.GREY_400)
+                ft.Divider(expand=True, color=ft.Colors.GREY_400),
+                ft.Text("or", color=ft.Colors.GREY_600),
+                ft.Divider(expand=True, color=ft.Colors.GREY_400)
             ],
             alignment=ft.MainAxisAlignment.CENTER
         )
@@ -93,8 +93,8 @@ class HomeView(ft.Column):
         join_btn = ft.ElevatedButton(
             "Join Session",
             icon=ft.icons.LOGIN,
-            bgcolor=ft.colors.GREEN,
-            color=ft.colors.WHITE,
+            bgcolor=ft.Colors.GREEN,
+            color=ft.Colors.WHITE,
             size=ft.ButtonSize.LARGE,
             on_click=self._on_join_click,
             width=280
@@ -103,7 +103,7 @@ class HomeView(ft.Column):
         join_section = ft.Column(
             controls=[
                 self.join_code_field,
-                ft.Divider(height=8, color=ft.colors.TRANSPARENT),
+                ft.Divider(height=8, color=ft.Colors.TRANSPARENT),
                 join_btn
             ],
             horizontal_alignment=ft.CrossAxisAlignment.CENTER,
@@ -114,13 +114,13 @@ class HomeView(ft.Column):
         content = ft.Column(
             controls=[
                 logo,
-                ft.Divider(height=32, color=ft.colors.TRANSPARENT),
+                ft.Divider(height=32, color=ft.Colors.TRANSPARENT),
                 self.name_field,
-                ft.Divider(height=16, color=ft.colors.TRANSPARENT),
+                ft.Divider(height=16, color=ft.Colors.TRANSPARENT),
                 create_btn,
-                ft.Divider(height=24, color=ft.colors.TRANSPARENT),
+                ft.Divider(height=24, color=ft.Colors.TRANSPARENT),
                 divider,
-                ft.Divider(height=24, color=ft.colors.TRANSPARENT),
+                ft.Divider(height=24, color=ft.Colors.TRANSPARENT),
                 join_section
             ],
             horizontal_alignment=ft.CrossAxisAlignment.CENTER,
@@ -230,7 +230,7 @@ class HomeView(ft.Column):
         """Show an error message."""
         self.page.snack_bar = ft.SnackBar(
             content=ft.Text(message),
-            bgcolor=ft.colors.RED
+            bgcolor=ft.Colors.RED
         )
         self.page.snack_bar.open = True
         self.page.update()

@@ -50,12 +50,12 @@ class SummaryCard(ft.Container):
         self.on_settle_callback = on_settle
 
         # Container styling
-        self.bgcolor = ft.colors.WHITE
+        self.bgcolor = ft.Colors.WHITE
         self.border_radius = 16
         self.padding = 20
         self.shadow = ft.BoxShadow(
             blur_radius=12,
-            color=ft.colors.BLACK12,
+            color=ft.Colors.BLACK12,
             offset=ft.Offset(0, 4)
         )
 
@@ -65,10 +65,10 @@ class SummaryCard(ft.Container):
         """Build the card's content."""
         # Status badge
         status_color = {
-            'active': ft.colors.GREEN,
-            'locked': ft.colors.ORANGE,
-            'settled': ft.colors.BLUE
-        }.get(self.status, ft.colors.GREY)
+            'active': ft.Colors.GREEN,
+            'locked': ft.Colors.ORANGE,
+            'settled': ft.Colors.BLUE
+        }.get(self.status, ft.Colors.GREY)
 
         status_text = {
             'active': 'Active',
@@ -80,7 +80,7 @@ class SummaryCard(ft.Container):
             content=ft.Text(
                 status_text,
                 size=12,
-                color=ft.colors.WHITE,
+                color=ft.Colors.WHITE,
                 weight=ft.FontWeight.BOLD
             ),
             bgcolor=status_color,
@@ -110,28 +110,28 @@ class SummaryCard(ft.Container):
                             f"${self.total_amount:.2f}",
                             size=28,
                             weight=ft.FontWeight.BOLD,
-                            color=ft.colors.INDIGO
+                            color=ft.Colors.INDIGO
                         ),
                         ft.Text(
                             "Total",
                             size=12,
-                            color=ft.colors.GREY_600
+                            color=ft.Colors.GREY_600
                         )
                     ]
                 ),
-                ft.VerticalDivider(width=1, color=ft.colors.GREY_300),
+                ft.VerticalDivider(width=1, color=ft.Colors.GREY_300),
                 ft.Column(
                     controls=[
                         ft.Text(
                             f"${self.my_share:.2f}",
                             size=28,
                             weight=ft.FontWeight.BOLD,
-                            color=ft.colors.GREEN_700
+                            color=ft.Colors.GREEN_700
                         ),
                         ft.Text(
                             "Your Share",
                             size=12,
-                            color=ft.colors.GREY_600
+                            color=ft.Colors.GREY_600
                         )
                     ]
                 )
@@ -142,11 +142,11 @@ class SummaryCard(ft.Container):
         # Breakdown
         breakdown = ft.Column(
             controls=[
-                ft.Divider(height=16, color=ft.colors.TRANSPARENT),
+                ft.Divider(height=16, color=ft.Colors.TRANSPARENT),
                 _BreakdownRow("Subtotal", self.subtotal),
                 _BreakdownRow("Tax", self.tax_amount),
                 _BreakdownRow(f"Tip ({self.tip_percent:.0f}%)", self.tip_amount),
-                ft.Divider(height=8, color=ft.colors.GREY_300),
+                ft.Divider(height=8, color=ft.Colors.GREY_300),
                 _BreakdownRow("Total", self.total_amount, is_total=True)
             ],
             spacing=4
@@ -163,8 +163,8 @@ class SummaryCard(ft.Container):
                 ft.ElevatedButton(
                     "Lock Session",
                     icon=ft.icons.LOCK,
-                    bgcolor=ft.colors.INDIGO,
-                    color=ft.colors.WHITE,
+                    bgcolor=ft.Colors.INDIGO,
+                    color=ft.Colors.WHITE,
                     on_click=self._on_lock_click,
                     expand=True
                 )
@@ -174,8 +174,8 @@ class SummaryCard(ft.Container):
                 ft.ElevatedButton(
                     "Mark Settled",
                     icon=ft.icons.CHECK_CIRCLE,
-                    bgcolor=ft.colors.GREEN,
-                    color=ft.colors.WHITE,
+                    bgcolor=ft.Colors.GREEN,
+                    color=ft.Colors.WHITE,
                     on_click=self._on_settle_click,
                     expand=True
                 )
@@ -184,7 +184,7 @@ class SummaryCard(ft.Container):
         return ft.Column(
             controls=[
                 header,
-                ft.Divider(height=16, color=ft.colors.TRANSPARENT),
+                ft.Divider(height=16, color=ft.Colors.TRANSPARENT),
                 totals_row,
                 breakdown,
                 action_buttons
@@ -236,14 +236,14 @@ class _BreakdownRow(ft.Row):
                     label,
                     size=14 if is_total else 13,
                     weight=ft.FontWeight.BOLD if is_total else ft.FontWeight.NORMAL,
-                    color=ft.colors.BLACK if is_total else ft.colors.GREY_700,
+                    color=ft.Colors.BLACK if is_total else ft.Colors.GREY_700,
                     expand=True
                 ),
                 ft.Text(
                     f"${amount:.2f}",
                     size=14 if is_total else 13,
                     weight=ft.FontWeight.BOLD if is_total else ft.FontWeight.NORMAL,
-                    color=ft.colors.BLACK if is_total else ft.colors.GREY_700
+                    color=ft.Colors.BLACK if is_total else ft.Colors.GREY_700
                 )
             ],
             alignment=ft.MainAxisAlignment.SPACE_BETWEEN

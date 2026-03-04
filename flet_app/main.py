@@ -24,14 +24,7 @@ def main(page: ft.Page):
     # Configure page
     page.title = "Tap & Split"
     page.theme_mode = ft.ThemeMode.LIGHT
-    page.bgcolor = ft.colors.GREY_100
-
-    # Set window size for desktop
-    if page.platform in [ft.PagePlatform.MACOS, ft.PagePlatform.WINDOWS, ft.PagePlatform.LINUX]:
-        page.window.width = 400
-        page.window.height = 700
-        page.window.min_width = 350
-        page.window.min_height = 500
+    page.bgcolor = "#F5F5F5"  # Grey 100 equivalent
 
     # Current view
     current_view = None
@@ -68,4 +61,4 @@ def main(page: ft.Page):
 
 
 if __name__ == "__main__":
-    ft.app(target=main, view=ft.AppView.WEB_BROWSER)
+    ft.run(target=main)

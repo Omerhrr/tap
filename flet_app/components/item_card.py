@@ -35,20 +35,20 @@ class ItemCard(ft.Container):
         self.on_delete_callback = on_delete
 
         # Container styling
-        self.bgcolor = ft.colors.WHITE
+        self.bgcolor = ft.Colors.WHITE
         self.border_radius = 12
         self.padding = 16
         self.margin = ft.margin.only(bottom=8)
         self.shadow = ft.BoxShadow(
             blur_radius=8,
-            color=ft.colors.BLACK12,
+            color=ft.Colors.BLACK12,
             offset=ft.Offset(0, 2)
         )
 
         # Add border for disputed items
         if item_data.get('is_disputed'):
-            self.border = ft.border.all(2, ft.colors.ORANGE)
-            self.bgcolor = ft.colors.ORANGE_50
+            self.border = ft.border.all(2, ft.Colors.ORANGE)
+            self.bgcolor = ft.Colors.ORANGE_50
 
         # Build the card content
         self.content = self._build_content()
@@ -70,7 +70,7 @@ class ItemCard(ft.Container):
                         ft.Text(
                             f"${self.item['amount']:.2f}",
                             size=14,
-                            color=ft.colors.GREY_700
+                            color=ft.Colors.GREY_700
                         ),
                     ],
                     expand=True
@@ -79,14 +79,14 @@ class ItemCard(ft.Container):
                     controls=[
                         ft.IconButton(
                             icon=ft.icons.WARNING_ROUNDED if self.item.get('is_disputed') else ft.icons.EDIT,
-                            icon_color=ft.colors.ORANGE if self.item.get('is_disputed') else ft.colors.GREY_500,
+                            icon_color=ft.Colors.ORANGE if self.item.get('is_disputed') else ft.Colors.GREY_500,
                             icon_size=20,
                             on_click=self._on_edit_click,
                             tooltip="Disputed" if self.item.get('is_disputed') else "Edit"
                         ),
                         ft.IconButton(
                             icon=ft.icons.DELETE_OUTLINE,
-                            icon_color=ft.colors.RED_400,
+                            icon_color=ft.Colors.RED_400,
                             icon_size=20,
                             on_click=self._on_delete_click,
                             tooltip="Delete"
@@ -105,13 +105,13 @@ class ItemCard(ft.Container):
                 content=self.assignment_chips if self.assignment_chips.controls else ft.Text(
                     "Drag participant here to assign",
                     size=12,
-                    color=ft.colors.GREY_400,
+                    color=ft.Colors.GREY_400,
                     italic=True
                 ),
-                bgcolor=ft.colors.BLUE_GREY_50,
+                bgcolor=ft.Colors.BLUE_GREY_50,
                 border_radius=8,
                 padding=10,
-                border=ft.border.all(1, ft.colors.BLUE_GREY_200)
+                border=ft.border.all(1, ft.Colors.BLUE_GREY_200)
             ),
             group="participant",
             on_accept=self._on_assign_dropped,
@@ -122,7 +122,7 @@ class ItemCard(ft.Container):
         return ft.Column(
             controls=[
                 header,
-                ft.Divider(height=8, color=ft.colors.TRANSPARENT),
+                ft.Divider(height=8, color=ft.Colors.TRANSPARENT),
                 drag_target
             ],
             spacing=0
@@ -141,7 +141,7 @@ class ItemCard(ft.Container):
                     label=ft.Text(
                         f"{participant['name']} {assignment['share_percent']:.0f}%",
                         size=12,
-                        color=ft.colors.WHITE
+                        color=ft.Colors.WHITE
                     ),
                     bgcolor=participant.get('color', '#2196F3'),
                     delete_icon=ft.icons.CLOSE,
@@ -177,21 +177,21 @@ class ItemCard(ft.Container):
             if self.page:
                 self.page.snack_bar = ft.SnackBar(
                     content=ft.Text(f"Failed to assign: {str(ex)}"),
-                    bgcolor=ft.colors.RED
+                    bgcolor=ft.Colors.RED
                 )
                 self.page.snack_bar.open = True
                 self.page.update()
 
     def _on_will_accept(self, e):
         """Visual feedback when dragging over."""
-        e.control.content.bgcolor = ft.colors.BLUE_100
-        e.control.content.border = ft.border.all(2, ft.colors.BLUE)
+        e.control.content.bgcolor = ft.Colors.BLUE_100
+        e.control.content.border = ft.border.all(2, ft.Colors.BLUE)
         e.control.update()
 
     def _on_leave(self, e):
         """Reset visual when dragging leaves."""
-        e.control.content.bgcolor = ft.colors.BLUE_GREY_50
-        e.control.content.border = ft.border.all(1, ft.colors.BLUE_GREY_200)
+        e.control.content.bgcolor = ft.Colors.BLUE_GREY_50
+        e.control.content.border = ft.border.all(1, ft.Colors.BLUE_GREY_200)
         e.control.update()
 
     async def _remove_assignment(self, assignment_id: int):
