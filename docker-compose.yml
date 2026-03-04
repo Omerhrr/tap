@@ -1,0 +1,43 @@
+# docker-compose.yml
+version: '3.8'
+
+services:
+  db:
+    image: postgres:15-alpine
+    container_name: tapsplit-db
+    environment:
+      POSTGRES_USER: tapsplit
+      POSTGRES_PASSWORD: tapsplit
+      POSTGRES_DB: tapsplit
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U tapsplit"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: tapsplit-backend
+    environment:
+      DATABASE_URL: postgresql+asyncpg://tapsplit:tapsplit@db:5432/tapsplit
+      TESSDATA_PREFIX: /usr/share/tesseract-ocr/4.00/tessdata
+      CORS_ORIGINS: '["*"]'
+      HOST: 0.0.0.0
+      PORT: 8000
+      RELOAD: "false"
+    ports:
+      - "8000:8000"
+    depends_on:
+      db:
+        condition: service_healthy
+    volumes:
+      - ./backend/app:/app/app:ro
+
+volumes:
+  postgres_data:
