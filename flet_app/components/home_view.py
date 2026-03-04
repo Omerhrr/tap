@@ -15,7 +15,7 @@ class HomeView(ft.Column):
 
     def __init__(self, page: ft.Page, on_session_joined: Optional[Callable] = None):
         super().__init__()
-        self.page = page
+        self._page = page
         self.on_session_joined = on_session_joined
         self.expand = True
 
@@ -228,9 +228,9 @@ class HomeView(ft.Column):
 
     def _show_error(self, message: str):
         """Show an error message."""
-        self.page.snack_bar = ft.SnackBar(
+        self._page.snack_bar = ft.SnackBar(
             content=ft.Text(message),
             bgcolor=ft.Colors.RED
         )
-        self.page.snack_bar.open = True
-        self.page.update()
+        self._page.snack_bar.open = True
+        self._page.update()

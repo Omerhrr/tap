@@ -30,7 +30,7 @@ class ItemCard(ft.Container):
         """
         super().__init__()
         self.item = item_data
-        self.page = page
+        self._page = page
         self.on_edit_callback = on_edit
         self.on_delete_callback = on_delete
 
@@ -174,13 +174,13 @@ class ItemCard(ft.Container):
             )
         except Exception as ex:
             print(f"Assignment error: {ex}")
-            if self.page:
-                self.page.snack_bar = ft.SnackBar(
+            if self._page:
+                self._page.snack_bar = ft.SnackBar(
                     content=ft.Text(f"Failed to assign: {str(ex)}"),
                     bgcolor=ft.Colors.RED
                 )
-                self.page.snack_bar.open = True
-                self.page.update()
+                self._page.snack_bar.open = True
+                self._page.update()
 
     def _on_will_accept(self, e):
         """Visual feedback when dragging over."""
@@ -205,7 +205,7 @@ class ItemCard(ft.Container):
         """Update item data and refresh display."""
         self.item = item_data
         self.content = self._build_content()
-        if self.page:
+        if self._page:
             self.update()
 
 
@@ -251,9 +251,9 @@ class ItemList(ft.Column):
         self.controls = [
             ItemCard(
                 item_data=item,
-                page=self.page
+                page=self._page
             )
             for item in items
         ]
-        if self.page:
+        if self._page:
             self.update()

@@ -17,7 +17,7 @@ class SessionView(ft.Column):
 
     def __init__(self, page: ft.Page):
         super().__init__()
-        self.page = page
+        self._page = page
         self.expand = True
 
         # Subscribe to state changes
@@ -135,7 +135,7 @@ class SessionView(ft.Column):
             items=state.items,
             on_edit=self._on_edit_item,
             on_delete=self._on_delete_item,
-            page=self.page
+            page=self._page
         )
 
         # Main content column
@@ -182,8 +182,8 @@ class SessionView(ft.Column):
         # Update items list
         self.items_list.update_items(state.items)
 
-        if self.page:
-            self.page.update()
+        if self._page:
+            self._page.update()
 
     def _on_back_click(self, e):
         """Handle back button click."""
@@ -281,9 +281,9 @@ class SessionView(ft.Column):
                 ft.TextButton("Close", on_click=lambda e: self._close_dialog())
             ]
         )
-        self.page.dialog = qr_dialog
+        self._page.dialog = qr_dialog
         qr_dialog.open = True
-        self.page.update()
+        self._page.update()
 
     def _show_scan_dialog(self):
         """Show scan receipt dialog."""
@@ -310,10 +310,10 @@ class SessionView(ft.Column):
             ]
         )
 
-        self.page.overlay.append(file_picker)
-        self.page.dialog = scan_dialog
+        self._page.overlay.append(file_picker)
+        self._page.dialog = scan_dialog
         scan_dialog.open = True
-        self.page.update()
+        self._page.update()
 
     async def _on_file_picked(self, e):
         """Handle file picker result."""
@@ -328,12 +328,12 @@ class SessionView(ft.Column):
             self._close_dialog()
 
             # Show processing indicator
-            self.page.snack_bar = ft.SnackBar(
+            self._page.snack_bar = ft.SnackBar(
                 content=ft.Text("Processing receipt..."),
                 bgcolor=ft.Colors.BLUE
             )
-            self.page.snack_bar.open = True
-            self.page.update()
+            self._page.snack_bar.open = True
+            self._page.update()
 
             try:
                 # This would process the actual file in production
@@ -380,9 +380,9 @@ class SessionView(ft.Column):
                 )
             ]
         )
-        self.page.dialog = add_dialog
+        self._page.dialog = add_dialog
         add_dialog.open = True
-        self.page.update()
+        self._page.update()
 
     async def _add_item(self, description: str, amount: float, quantity: int):
         """Add a new item."""
@@ -436,9 +436,9 @@ class SessionView(ft.Column):
                 )
             ]
         )
-        self.page.dialog = edit_dialog
+        self._page.dialog = edit_dialog
         edit_dialog.open = True
-        self.page.update()
+        self._page.update()
 
     async def _update_item(self, item_id: int, description: str, amount: float):
         """Update an item."""
@@ -457,5 +457,5 @@ class SessionView(ft.Column):
 
     def _close_dialog(self):
         """Close the current dialog."""
-        self.page.dialog.open = False
-        self.page.update()
+        self._page.dialog.open = False
+        self._page.update()
