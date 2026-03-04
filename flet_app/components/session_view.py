@@ -315,7 +315,7 @@ class SessionView(ft.Column):
         scan_dialog.open = True
         self.page.update()
 
-    async def _on_file_picked(self, e: ft.FilePickerResultEvent):
+    async def _on_file_picked(self, e):
         """Handle file picker result."""
         if e.files:
             # Process the uploaded image
